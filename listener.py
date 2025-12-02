@@ -67,15 +67,15 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
 	        })
 	
 	    # Ensure the CSV path exists
-	    file_path = Path(eventfile)
-	    file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path = Path(eventfile)
+        file_path.parent.mkdir(parents=True, exist_ok=True)
 	
-	    # Always write the CSV, even if rows is empty
+        # Always write the CSV, even if rows is empty
         df_new = pd.DataFrame(rows)
-	    if file_path.exists():
-	        df_new.to_csv(file_path, mode='a', header=False, index=False)
-	    else:
-	        df_new.to_csv(file_path, mode='w', header=True, index=False)
+        if file_path.exists():
+            df_new.to_csv(file_path, mode='a', header=False, index=False)
+        else:
+            df_new.to_csv(file_path, mode='w', header=True, index=False)
 	
     else:
         for block_num in range(start_block,end_block+1):
