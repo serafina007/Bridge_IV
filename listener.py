@@ -55,7 +55,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
         events = event_filter.get_all_entries()
         #print( f"Got {len(events)} entries for block {block_num}" )
         # TODO YOUR CODE HERE
-		rows = []
+        rows = []
         for evt in events:
             rows.append({
                 'chain': chain,
@@ -81,7 +81,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
             events = event_filter.get_all_entries()
             #print( f"Got {len(events)} entries for block {block_num}" )
             # TODO YOUR CODE HERE
-			rows = []
+            rows = []
         	for evt in events:
             rows.append({
                 'chain': chain,
