@@ -60,7 +60,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
             args = ev['args']
             rows.append({
                 "block_number": ev.blockNumber,
-                "tx_hash": ev.transactionHash.hex(),
+                "transactionHash": ev.transactionHash.hex(),
                 "token": args["token"],
                 "recipient": args["recipient"],
                 "amount": int(args["amount"])
@@ -83,7 +83,7 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
                 args = ev['args']
                 rows.append({
                     "block_number": ev.blockNumber,
-                    "tx_hash": ev.transactionHash.hex(),
+                    "transactionHash": ev.transactionHash.hex(),
                     "token": args["token"],
                     "recipient": args["recipient"],
                     "amount": int(args["amount"])
