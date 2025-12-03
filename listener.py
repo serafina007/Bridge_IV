@@ -56,26 +56,21 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
         #print( f"Got {len(events)} entries for block {block_num}" )
         # TODO YOUR CODE HERE
         rows = []
-        for evt in events:
-             rows.append({
-                'chain': chain,
-                'token': evt.args['token'],
-                'recipient': evt.args['recipient'],
-                'amount': int(evt.args['amount']),
-                'transactionHash': evt.transactionHash.hex(),
-                'address': evt.address
-	        })
-	
-	    # Ensure the CSV path exists
-        file_path = Path(eventfile)
-        file_path.parent.mkdir(parents=True, exist_ok=True)
-	
-        # Always write the CSV, even if rows is empty
-        df_new = pd.DataFrame(rows)
-        if file_path.exists():
-            df_new.to_csv(file_path, mode='a', header=False, index=False)
-        else:
-            df_new.to_csv(file_path, mode='w', header=True, index=False)
+        for ev in events:
+            args = ev['args']
+            rows.append({
+                "block_number": ev.blockNumber,
+                "tx_hash": ev.transactionHash.hex(),
+                "token": args["token"],
+                "recipient": args["recipient"],
+                "amount": int(args["amount"])
+            })
+
+        df = pd.DataFrame(rows)
+        if not df.empty:
+            file_exists = Path(eventfile).is_file()
+            df.to_csv(eventfile, mode="a", header=not file_exists, index=False)
+
 	
     else:
         for block_num in range(start_block,end_block+1):
@@ -84,23 +79,17 @@ def scan_blocks(chain, start_block, end_block, contract_address, eventfile='depo
             #print( f"Got {len(events)} entries for block {block_num}" )
             # TODO YOUR CODE HERE
             rows = []
-            for evt in events:
+            for ev in events:
+                args = ev['args']
                 rows.append({
-                    'chain': chain,
-                    'token': evt.args['token'],
-                    'recipient': evt.args['recipient'],
-                    'amount': int(evt.args['amount']),
-                    'transactionHash': evt.transactionHash.hex(),
-                    'address': evt.address
+                    "block_number": ev.blockNumber,
+                    "tx_hash": ev.transactionHash.hex(),
+                    "token": args["token"],
+                    "recipient": args["recipient"],
+                    "amount": int(args["amount"])
                 })
-	
-            # Ensure the CSV path exists
-            file_path = Path(eventfile)
-            file_path.parent.mkdir(parents=True, exist_ok=True)
-	
-            # Always write the CSV, even if rows is empty
-            df_new = pd.DataFrame(rows)
-            if file_path.exists():
-                df_new.to_csv(file_path, mode='a', header=False, index=False)
-            else:
-                df_new.to_csv(file_path, mode='w', header=True, index=False)
+
+            df = pd.DataFrame(rows)
+            if not df.empty:
+                file_exists = Path(eventfile).is_file()
+                df.to_csv(eventfile, mode="a", header=not file_exists, index=False)
